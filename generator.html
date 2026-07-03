@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <script>
+        (function () {
+            var theme = localStorage.getItem('generator_theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator</title>
+    <link rel="icon" type="image/png" href="src/image/codywas.png">
+    <link rel="stylesheet" href="src/style/generator.css">
+    <link rel="stylesheet" href="src/style/player.css">
+</head>
+<body>
+<div class="page-wrap">
+    <header class="page-header">
+        <div class="header-top">
+            <img src="src/image/codywas.png" alt="Generator" class="page-logo">
+            <div class="header-titles">
+                <div class="header-title-row">
+                    <h1>Generator</h1>
+                    <span class="badge badge-version">v2.1</span>
+                    <span class="badge badge-online"><span class="badge-dot"></span>Online</span>
+                </div>
+                <p class="header-subtitle">Gerador de nomes e senhas aleatorias para contas Roblox</p>
+            </div>
+            <button type="button" class="theme-toggle tooltip" id="btn-theme-toggle" data-tooltip="Alternar tema" aria-label="Alternar tema"></button>
+        </div>
+        <p class="header-desc">Configure as opcoes abaixo para gerar nomes de usuario validos para o Roblox (letras e numeros, de 3 a 20 caracteres) junto com senhas aleatorias. Tudo roda no seu navegador, nada e enviado para nenhum servidor.</p>
+        <p class="header-shortcuts"><span class="shortcut-label">Atalhos:</span> <kbd>Ctrl</kbd>+<kbd>Enter</kbd> gerar <span class="shortcut-sep">·</span> <kbd>Ctrl</kbd>+<kbd>K</kbd> pesquisar <span class="shortcut-sep">·</span> <kbd>Esc</kbd> limpar pesquisa</p>
+    </header>
+
+    <main class="page-content">
+        <section class="config-column">
+            <div class="card step-card" id="step-names">
+                <div class="step-card-header">
+                    <span class="step-number">1</span>
+                    <div>
+                        <h2>Contas e nomes</h2>
+                        <p>Defina quantas contas gerar e como os nomes devem ser montados.</p>
+                    </div>
+                </div>
+
+                <div class="field-grid">
+                    <div class="field">
+                        <label for="field-qty">Quantidade de contas</label>
+                        <input type="number" id="field-qty" min="1" max="100" value="5">
+                        <span class="field-hint">Entre 1 e 100</span>
+                    </div>
+
+                    <div class="field">
+                        <label for="field-format">Formato do nome</label>
+                        <select id="field-format">
+                            <option value="simples">Palavra + Numero</option>
+                            <option value="composto">Adjetivo + Substantivo</option>
+                            <option value="prefixo">Prefixo + Numero</option>
+                            <option value="aleatorio">Aleatorio puro</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="field-lang">Idioma dos nomes</label>
+                        <select id="field-lang">
+                            <option value="pt">Portugues</option>
+                            <option value="en">English</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="field-baseword">Palavra-base (opcional)</label>
+                        <input type="text" id="field-baseword" placeholder="Ex: Ninja" maxlength="16">
+                        <span class="field-hint">Usada nos formatos Palavra e Adjetivo + Substantivo</span>
+                    </div>
+
+                    <div class="field">
+                        <label for="field-prefix">Prefixo do nome (opcional)</label>
+                        <input type="text" id="field-prefix" placeholder="Ex: Player" maxlength="12">
+                        <span class="field-hint">Usado no formato Prefixo + Numero</span>
+                    </div>
+
+                    <div class="field">
+                        <label>Tamanho do nome</label>
+                        <div class="pill-group" role="radiogroup" aria-label="Tamanho do nome">
+                            <label class="pill">
+                                <input type="radio" name="nameSize" value="curto" checked>
+                                <span>Curto</span>
+                            </label>
+                            <label class="pill">
+                                <input type="radio" name="nameSize" value="longo">
+                                <span>Longo</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="switch-row">
+                    <label class="switch">
+                        <input type="checkbox" id="field-autosuffix" checked>
+                        <span class="switch-track"><span class="switch-thumb"></span></span>
+                        <span class="switch-label">Adicionar numero automatico</span>
+                    </label>
+                    <label class="switch">
+                        <input type="checkbox" id="field-avoid-dup" checked>
+                        <span class="switch-track"><span class="switch-thumb"></span></span>
+                        <span class="switch-label">Evitar nomes repetidos</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="card step-card" id="step-password">
+                <div class="step-card-header">
+                    <span class="step-number">2</span>
+                    <div>
+                        <h2>Senha</h2>
+                        <p>Escolha o tamanho e os tipos de caracteres da senha gerada.</p>
+                    </div>
+                </div>
+
+                <div class="switch-row">
+                    <label class="switch">
+                        <input type="checkbox" id="field-custom-pass-toggle">
+                        <span class="switch-track"><span class="switch-thumb"></span></span>
+                        <span class="switch-label">Usar senha personalizada para todas as contas</span>
+                    </label>
+                </div>
+
+                <div class="field">
+                    <label for="field-custom-pass-value">Senha fixa</label>
+                    <input type="text" id="field-custom-pass-value" placeholder="Digite a senha que sera usada em todas as contas" disabled>
+                </div>
+
+                <div class="field-grid" id="password-charset-group">
+                    <div class="field">
+                        <label for="field-pass-length">Tamanho da senha</label>
+                        <input type="number" id="field-pass-length" min="6" max="32" value="12">
+                        <span class="field-hint">Entre 6 e 32</span>
+                    </div>
+
+                    <div class="checkbox-grid">
+                        <label class="checkbox">
+                            <input type="checkbox" id="field-upper" checked>
+                            <span>Letras maiusculas (A-Z)</span>
+                        </label>
+                        <label class="checkbox">
+                            <input type="checkbox" id="field-lower" checked>
+                            <span>Letras minusculas (a-z)</span>
+                        </label>
+                        <label class="checkbox">
+                            <input type="checkbox" id="field-numbers" checked>
+                            <span>Numeros (0-9)</span>
+                        </label>
+                        <label class="checkbox">
+                            <input type="checkbox" id="field-symbols">
+                            <span>Caracteres especiais (!@#$)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="switch-row">
+                    <label class="switch">
+                        <input type="checkbox" id="field-strong" checked>
+                        <span class="switch-track"><span class="switch-thumb"></span></span>
+                        <span class="switch-label">Senha forte (garante todos os tipos escolhidos)</span>
+                    </label>
+                    <label class="switch">
+                        <input type="checkbox" id="field-avoid-similar" checked>
+                        <span class="switch-track"><span class="switch-thumb"></span></span>
+                        <span class="switch-label">Evitar caracteres semelhantes (l, 1, I, O, 0)</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="card step-card" id="step-actions">
+                <div class="step-card-header">
+                    <span class="step-number">3</span>
+                    <div>
+                        <h2>Acoes</h2>
+                        <p>Gere as contas, salve suas preferencias ou automatize o processo.</p>
+                    </div>
+                </div>
+
+                <div class="switch-row">
+                    <label class="switch">
+                        <input type="checkbox" id="field-auto-copy">
+                        <span class="switch-track"><span class="switch-thumb"></span></span>
+                        <span class="switch-label">Copiar tudo automaticamente apos gerar</span>
+                    </label>
+                    <label class="switch">
+                        <input type="checkbox" id="field-auto-download">
+                        <span class="switch-track"><span class="switch-thumb"></span></span>
+                        <span class="switch-label">Baixar TXT automaticamente apos gerar</span>
+                    </label>
+                </div>
+
+                <div class="progress-track" id="generate-progress">
+                    <div class="progress-track-fill" id="generate-progress-fill"></div>
+                </div>
+
+                <div class="action-buttons">
+                    <button type="button" class="btn btn-primary btn-large" id="btn-generate">
+                        <span class="btn-spinner"></span>
+                        <span class="btn-label">Gerar Contas</span>
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="btn-clear">Limpar</button>
+                    <button type="button" class="btn btn-ghost" id="btn-save-config">Salvar Configuracao</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="results-column">
+            <div class="card results-card">
+                <div class="results-header">
+                    <div>
+                        <h2>Resultados</h2>
+                        <p>Contas geradas nesta sessao</p>
+                    </div>
+                    <button type="button" class="icon-btn tooltip" id="btn-regenerate" data-tooltip="Gerar novamente" aria-label="Gerar novamente">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="23 4 23 10 17 10"/>
+                            <polyline points="1 20 1 14 7 14"/>
+                            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="stats-bar">
+                    <div class="stat">
+                        <span class="stat-value" id="stat-total-count">0</span>
+                        <span class="stat-label">Geradas na sessao</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value" id="stat-gen-time">0ms</span>
+                        <span class="stat-label">Tempo de geracao</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value" id="stat-showing-count">0</span>
+                        <span class="stat-label">Exibindo agora</span>
+                    </div>
+                </div>
+
+                <div class="toolbar">
+                    <div class="search-wrap">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"/>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        </svg>
+                        <input type="text" id="field-search" placeholder="Pesquisar por nome de usuario">
+                    </div>
+                    <label class="checkbox checkbox-compact">
+                        <input type="checkbox" id="field-fav-only">
+                        <span>Somente favoritos</span>
+                    </label>
+                </div>
+
+                <div class="toolbar toolbar-actions">
+                    <button type="button" class="btn btn-ghost btn-small" id="btn-copy-all">Copiar tudo</button>
+                    <button type="button" class="btn btn-ghost btn-small" id="btn-export-txt">Exportar TXT</button>
+                    <button type="button" class="btn btn-ghost btn-small" id="btn-export-csv">Exportar CSV</button>
+                    <button type="button" class="btn btn-ghost btn-small" id="btn-export-json">Exportar JSON</button>
+                </div>
+
+                <div class="results-list-wrap">
+                    <div class="results-skeleton" id="results-skeleton"></div>
+                    <div class="results-empty" id="results-empty">
+                        <p>Nenhuma conta gerada ainda.</p>
+                        <p class="results-empty-hint">Preencha as opcoes ao lado e clique em Gerar Contas.</p>
+                    </div>
+                    <div class="results-list" id="results-list"></div>
+                </div>
+
+                <div class="pagination">
+                    <button type="button" class="btn btn-ghost btn-small" id="btn-prev-page">Anterior</button>
+                    <span id="page-indicator">Pagina 1 de 1</span>
+                    <button type="button" class="btn btn-ghost btn-small" id="btn-next-page">Proxima</button>
+                </div>
+            </div>
+
+            <details class="card history-card" id="history-panel">
+                <summary>Historico de geracoes</summary>
+                <div class="history-list" id="history-list"></div>
+                <button type="button" class="btn btn-ghost btn-small" id="btn-clear-history">Limpar historico</button>
+            </details>
+        </section>
+    </main>
+</div>
+
+<div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+<div class="music-player" id="music-player">
+    <div class="music-top-row">
+        <div class="music-cover">
+            <img src="src/image/battlecry_cover.jpg" alt="Capa do album">
+            <div class="music-cover-ring"></div>
+            <div class="music-live-dot"></div>
+        </div>
+
+        <div class="music-info">
+            <div class="music-status-row">
+                <div class="music-bars">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <span id="music-status-text">Pausado</span>
+            </div>
+            <span class="music-title">Battlecry</span>
+            <span class="music-artist">Spotdown</span>
+        </div>
+
+        <button class="music-favorite tooltip" id="favorite-btn" data-tooltip="Favoritar" aria-label="Favoritar musica">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/>
+            </svg>
+        </button>
+
+        <button class="music-expand-btn tooltip" id="expand-btn" data-tooltip="Modo compacto" aria-label="Alternar modo compacto">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="18 15 12 9 6 15"/>
+            </svg>
+        </button>
+    </div>
+
+    <div class="music-progress-section">
+        <div class="music-progress-bar" id="music-progress-bar" tabindex="0" role="slider" aria-label="Progresso da musica" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="music-progress-fill" id="music-progress-fill">
+                <div class="music-progress-handle"></div>
+            </div>
+        </div>
+        <div class="music-time-row">
+            <span id="music-current-time">0:00</span>
+            <span id="music-duration">0:00</span>
+        </div>
+    </div>
+
+    <div class="music-controls-row">
+        <button class="music-btn small tooltip" id="shuffle-btn" data-tooltip="Aleatorio" aria-label="Reproducao aleatoria">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="16 3 21 3 21 8"/>
+                <line x1="4" y1="20" x2="21" y2="3"/>
+                <polyline points="21 16 21 21 16 21"/>
+                <line x1="15" y1="15" x2="21" y2="21"/>
+                <line x1="4" y1="4" x2="9" y2="9"/>
+            </svg>
+        </button>
+
+        <button class="music-btn small tooltip disabled" id="prev-btn" data-tooltip="Indisponivel" aria-label="Musica anterior" disabled>
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M6 5h2v14H6zM20 5v14l-11-7z"/>
+            </svg>
+        </button>
+
+        <button class="music-toggle tooltip" id="music-toggle" data-tooltip="Reproduzir" aria-label="Reproduzir musica">
+            <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5v14l11-7z"/>
+            </svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M6 5h4v14H6zM14 5h4v14h-4z"/>
+            </svg>
+        </button>
+
+        <button class="music-btn small tooltip disabled" id="next-btn" data-tooltip="Indisponivel" aria-label="Proxima musica" disabled>
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M16 5h2v14h-2zM4 5v14l11-7z"/>
+            </svg>
+        </button>
+
+        <button class="music-btn small tooltip" id="repeat-btn" data-tooltip="Repetir" aria-label="Repetir musica">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="17 1 21 5 17 9"/>
+                <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+                <polyline points="7 23 3 19 7 15"/>
+                <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+            </svg>
+        </button>
+    </div>
+
+    <div class="music-bottom-row">
+        <button class="volume-btn tooltip" id="volume-btn" data-tooltip="Mudo" aria-label="Volume"></button>
+        <div class="volume-slider-wrap">
+            <input type="range" class="volume-slider" id="volume-slider" min="0" max="100" value="60" aria-label="Controle de volume">
+        </div>
+        <span class="volume-percent" id="volume-percent">60%</span>
+        <button class="music-options-btn tooltip" id="options-btn" data-tooltip="Opcoes" aria-label="Opcoes da musica">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="1"/>
+                <circle cx="12" cy="5" r="1"/>
+                <circle cx="12" cy="19" r="1"/>
+            </svg>
+        </button>
+    </div>
+
+    <div class="music-meta-row">
+        <span>MP3 - 192kbps</span>
+        <span class="music-quality-badge">HQ</span>
+    </div>
+
+    <audio id="bg-audio" src="src/music/battlecry_spotdown.org.mp3" preload="auto"></audio>
+</div>
+
+<div class="music-toast" id="music-toast"></div>
+
+<script src="src/script/player.js"></script>
+<script src="src/script/generator.js"></script>
+</body>
+</html>
