@@ -18,10 +18,89 @@ function writeMusicState(state) {
     }
 }
 
+function makeDraggable(player) {
+    function clamp(value, min, max) {
+        return Math.min(max, Math.max(min, value));
+    }
+
+    function applyPosition(x, y) {
+        const rect = player.getBoundingClientRect();
+        const maxX = Math.max(8, window.innerWidth - rect.width - 8);
+        const maxY = Math.max(8, window.innerHeight - rect.height - 8);
+        const clampedX = clamp(x, 8, maxX);
+        const clampedY = clamp(y, 8, maxY);
+        player.style.left = clampedX + 'px';
+        player.style.top = clampedY + 'px';
+        player.style.right = 'auto';
+        player.style.bottom = 'auto';
+        return { x: clampedX, y: clampedY };
+    }
+
+    function persistPosition(x, y) {
+        const state = readMusicState() || {};
+        state.position = { x: x, y: y };
+        writeMusicState(state);
+    }
+
+    let isDragging = false;
+    let startX = 0;
+    let startY = 0;
+    let originX = 0;
+    let originY = 0;
+    let moved = false;
+
+    player.addEventListener('pointerdown', e => {
+        if (e.target.closest('button, input, a, .music-progress-bar')) return;
+        isDragging = true;
+        moved = false;
+        player.classList.add('dragging-player');
+        const rect = player.getBoundingClientRect();
+        startX = e.clientX;
+        startY = e.clientY;
+        originX = rect.left;
+        originY = rect.top;
+        player.setPointerCapture(e.pointerId);
+    });
+
+    player.addEventListener('pointermove', e => {
+        if (!isDragging) return;
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        if (Math.abs(dx) > 3 || Math.abs(dy) > 3) moved = true;
+        applyPosition(originX + dx, originY + dy);
+    });
+
+    player.addEventListener('pointerup', e => {
+        if (!isDragging) return;
+        isDragging = false;
+        player.classList.remove('dragging-player');
+        if (moved) {
+            const rect = player.getBoundingClientRect();
+            persistPosition(rect.left, rect.top);
+        }
+    });
+
+    window.addEventListener('resize', () => {
+        const rect = player.getBoundingClientRect();
+        if (player.style.left && player.style.top) {
+            applyPosition(rect.left, rect.top);
+        }
+    });
+
+    const saved = readMusicState();
+    if (saved && saved.position && typeof saved.position.x === 'number') {
+        window.requestAnimationFrame(() => {
+            applyPosition(saved.position.x, saved.position.y);
+        });
+    }
+}
+
 function initMusicPlayer() {
     const player = document.getElementById('music-player');
     const audio = document.getElementById('bg-audio');
     if (!player || !audio) return;
+
+    makeDraggable(player);
 
     const toggleBtn = document.getElementById('music-toggle');
     const volumeBtn = document.getElementById('volume-btn');
@@ -142,7 +221,7 @@ function initMusicPlayer() {
     });
 
     audio.addEventListener('loadedmetadata', () => {
-        durationEl.textContent = formatTime(audio.duration);
+        durationEl.textContent = '-' + formatTime(audio.duration);
     });
 
     audio.addEventListener('timeupdate', () => {
@@ -150,6 +229,9 @@ function initMusicPlayer() {
         const percent = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
         progressFillMusic.style.width = percent + '%';
         currentTimeEl.textContent = formatTime(audio.currentTime);
+        if (audio.duration) {
+            durationEl.textContent = '-' + formatTime(audio.duration - audio.currentTime);
+        }
         progressBarMusic.setAttribute('aria-valuenow', Math.round(percent));
     });
 
@@ -174,7 +256,11 @@ function initMusicPlayer() {
         const rect = progressBarMusic.getBoundingClientRect();
         const ratio = Math.min(Math.max((clientX - rect.left) / rect.width, 0), 1);
         progressFillMusic.style.width = (ratio * 100) + '%';
-        currentTimeEl.textContent = formatTime(ratio * (audio.duration || 0));
+        const seekTime = ratio * (audio.duration || 0);
+        currentTimeEl.textContent = formatTime(seekTime);
+        if (audio.duration) {
+            durationEl.textContent = '-' + formatTime(audio.duration - seekTime);
+        }
         return ratio;
     }
 

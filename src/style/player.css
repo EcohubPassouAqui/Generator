@@ -16,19 +16,37 @@
     backdrop-filter: blur(22px);
     -webkit-backdrop-filter: blur(22px);
     border: 1px solid rgba(255, 255, 255, 0.09);
-    border-radius: 22px;
+    border-radius: var(--radius-lg, 22px);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.02), 0 0 26px rgba(255, 255, 255, 0.03);
     font-family: var(--font-main);
-    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    cursor: grab;
+    animation: playerEnter 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes playerEnter {
+    from { opacity: 0; transform: translateY(16px) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .music-player:hover {
     border-color: rgba(255, 255, 255, 0.14);
     box-shadow: 0 14px 44px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.03), 0 0 32px rgba(255, 255, 255, 0.06);
+    transform: translateY(-3px);
 }
 
 .music-player.playing {
     border-color: rgba(255, 255, 255, 0.16);
+}
+
+.music-player.dragging-player {
+    cursor: grabbing;
+    transition: none;
+    box-shadow: 0 20px 54px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--color-accent, #e4e4e7);
+}
+
+.music-player.dragging-player:hover {
+    transform: none;
 }
 
 .music-top-row {
@@ -70,8 +88,8 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: #55e07a;
-    box-shadow: 0 0 6px rgba(85, 224, 122, 0.8);
+    background: var(--color-accent, #e4e4e7);
+    box-shadow: 0 0 6px rgba(var(--color-accent-rgb, 228, 228, 231), 0.8);
     opacity: 0;
     transform: scale(0.6);
     transition: opacity 0.25s ease, transform 0.25s ease;
@@ -84,8 +102,8 @@
 }
 
 @keyframes liveDotPulse {
-    0%, 100% { box-shadow: 0 0 6px rgba(85, 224, 122, 0.8); }
-    50% { box-shadow: 0 0 12px rgba(85, 224, 122, 1); }
+    0%, 100% { box-shadow: 0 0 6px rgba(var(--color-accent-rgb, 228, 228, 231), 0.8); }
+    50% { box-shadow: 0 0 12px rgba(var(--color-accent-rgb, 228, 228, 231), 1); }
 }
 
 .music-info {
@@ -118,7 +136,7 @@
     width: 2.5px;
     height: 3px;
     border-radius: 2px;
-    background: #55e07a;
+    background: var(--color-accent, #e4e4e7);
     opacity: 0.35;
 }
 
@@ -298,8 +316,8 @@
 }
 
 .music-btn.active {
-    color: #55e07a;
-    background: rgba(85, 224, 122, 0.12);
+    color: var(--color-accent, #e4e4e7);
+    background: rgba(var(--color-accent-rgb, 228, 228, 231), 0.12);
 }
 
 .music-toggle {

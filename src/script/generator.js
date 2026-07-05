@@ -809,12 +809,135 @@ function bindEvents() {
     });
 }
 
+function buildCustomSelect(wrap) {
+    const select = wrap.querySelector('select');
+    if (!select) return;
+    const options = Array.prototype.slice.call(select.options);
+
+    const trigger = document.createElement('button');
+    trigger.type = 'button';
+    trigger.className = 'custom-select-trigger';
+    trigger.setAttribute('aria-haspopup', 'listbox');
+    trigger.setAttribute('aria-expanded', 'false');
+
+    const valueSpan = document.createElement('span');
+    valueSpan.className = 'custom-select-value';
+    const initialSelected = options.filter(function (o) { return o.selected; })[0] || options[0];
+    valueSpan.textContent = initialSelected ? initialSelected.textContent : '';
+    trigger.appendChild(valueSpan);
+
+    const arrow = document.createElement('span');
+    arrow.className = 'custom-select-arrow';
+    arrow.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+    trigger.appendChild(arrow);
+
+    const list = document.createElement('ul');
+    list.className = 'custom-select-list';
+    list.setAttribute('role', 'listbox');
+
+    options.forEach(function (opt) {
+        const li = document.createElement('li');
+        li.className = 'custom-select-option';
+        li.setAttribute('role', 'option');
+        li.dataset.value = opt.value;
+        li.textContent = opt.textContent;
+        li.setAttribute('aria-selected', opt.selected ? 'true' : 'false');
+        if (opt.selected) li.classList.add('selected');
+        list.appendChild(li);
+    });
+
+    select.classList.add('native-select-hidden');
+    select.tabIndex = -1;
+    wrap.appendChild(trigger);
+    wrap.appendChild(list);
+
+    function closeList() {
+        wrap.classList.remove('open');
+        trigger.setAttribute('aria-expanded', 'false');
+    }
+
+    function openList() {
+        Array.prototype.forEach.call(document.querySelectorAll('.custom-select.open'), function (openWrap) {
+            if (openWrap !== wrap) openWrap.classList.remove('open');
+        });
+        wrap.classList.add('open');
+        trigger.setAttribute('aria-expanded', 'true');
+    }
+
+    function selectOption(li) {
+        const value = li.dataset.value;
+        select.value = value;
+        valueSpan.textContent = li.textContent;
+        Array.prototype.forEach.call(list.children, function (child) {
+            const isMatch = child === li;
+            child.classList.toggle('selected', isMatch);
+            child.setAttribute('aria-selected', isMatch ? 'true' : 'false');
+        });
+        select.dispatchEvent(new Event('change', { bubbles: true }));
+        closeList();
+        trigger.focus();
+    }
+
+    trigger.addEventListener('click', function () {
+        if (wrap.classList.contains('open')) {
+            closeList();
+        } else {
+            openList();
+        }
+    });
+
+    list.addEventListener('click', function (e) {
+        const li = e.target.closest('.custom-select-option');
+        if (li) selectOption(li);
+    });
+
+    trigger.addEventListener('keydown', function (e) {
+        const items = Array.prototype.slice.call(list.children);
+        const currentIndex = items.findIndex(function (item) {
+            return item.classList.contains('selected');
+        });
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (!wrap.classList.contains('open')) {
+                openList();
+                return;
+            }
+            const next = items[Math.min(currentIndex + 1, items.length - 1)];
+            if (next) selectOption(next);
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            const prev = items[Math.max(currentIndex - 1, 0)];
+            if (prev) selectOption(prev);
+        } else if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            if (wrap.classList.contains('open')) {
+                closeList();
+            } else {
+                openList();
+            }
+        } else if (e.key === 'Escape') {
+            closeList();
+        }
+    });
+
+    document.addEventListener('click', function (e) {
+        if (!wrap.contains(e.target)) {
+            closeList();
+        }
+    });
+}
+
+function enhanceSelects() {
+    Array.prototype.forEach.call(document.querySelectorAll('.custom-select[data-enhance]'), buildCustomSelect);
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     loadFavorites();
     loadHistory();
     loadTheme();
     loadConfig();
     syncCustomPasswordState();
+    enhanceSelects();
     applyFilter();
     renderResults();
     updateStats();

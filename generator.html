@@ -22,7 +22,7 @@
             <div class="header-titles">
                 <div class="header-title-row">
                     <h1>Generator</h1>
-                    <span class="badge badge-version">v2.1</span>
+                    <span class="badge badge-version">v1.0.0</span>
                     <span class="badge badge-online"><span class="badge-dot"></span>Online</span>
                 </div>
                 <p class="header-subtitle">Gerador de nomes e senhas aleatorias para contas Roblox</p>
@@ -34,7 +34,7 @@
     </header>
 
     <main class="page-content">
-        <section class="config-column">
+        <section class="config-row">
             <div class="card step-card" id="step-names">
                 <div class="step-card-header">
                     <span class="step-number">1</span>
@@ -44,69 +44,84 @@
                     </div>
                 </div>
 
-                <div class="field-grid">
-                    <div class="field">
-                        <label for="field-qty">Quantidade de contas</label>
-                        <input type="number" id="field-qty" min="1" max="100" value="5">
-                        <span class="field-hint">Entre 1 e 100</span>
-                    </div>
+                <div class="field-section">
+                    <span class="field-section-title">Quantidade e formato</span>
+                    <div class="field-grid">
+                        <div class="field">
+                            <label for="field-qty">Quantidade de contas</label>
+                            <input type="number" id="field-qty" min="1" max="100" value="5">
+                            <span class="field-hint">Entre 1 e 100</span>
+                        </div>
 
-                    <div class="field">
-                        <label for="field-format">Formato do nome</label>
-                        <select id="field-format">
-                            <option value="simples">Palavra + Numero</option>
-                            <option value="composto">Adjetivo + Substantivo</option>
-                            <option value="prefixo">Prefixo + Numero</option>
-                            <option value="aleatorio">Aleatorio puro</option>
-                        </select>
-                    </div>
+                        <div class="field">
+                            <label for="field-format">Formato do nome</label>
+                            <div class="custom-select" data-enhance="field-format">
+                                <select id="field-format">
+                                    <option value="simples">Palavra + Numero</option>
+                                    <option value="composto">Adjetivo + Substantivo</option>
+                                    <option value="prefixo">Prefixo + Numero</option>
+                                    <option value="aleatorio">Aleatorio puro</option>
+                                </select>
+                            </div>
+                        </div>
 
-                    <div class="field">
-                        <label for="field-lang">Idioma dos nomes</label>
-                        <select id="field-lang">
-                            <option value="pt">Portugues</option>
-                            <option value="en">English</option>
-                        </select>
-                    </div>
-
-                    <div class="field">
-                        <label for="field-baseword">Palavra-base (opcional)</label>
-                        <input type="text" id="field-baseword" placeholder="Ex: Ninja" maxlength="16">
-                        <span class="field-hint">Usada nos formatos Palavra e Adjetivo + Substantivo</span>
-                    </div>
-
-                    <div class="field">
-                        <label for="field-prefix">Prefixo do nome (opcional)</label>
-                        <input type="text" id="field-prefix" placeholder="Ex: Player" maxlength="12">
-                        <span class="field-hint">Usado no formato Prefixo + Numero</span>
-                    </div>
-
-                    <div class="field">
-                        <label>Tamanho do nome</label>
-                        <div class="pill-group" role="radiogroup" aria-label="Tamanho do nome">
-                            <label class="pill">
-                                <input type="radio" name="nameSize" value="curto" checked>
-                                <span>Curto</span>
-                            </label>
-                            <label class="pill">
-                                <input type="radio" name="nameSize" value="longo">
-                                <span>Longo</span>
-                            </label>
+                        <div class="field">
+                            <label for="field-lang">Idioma dos nomes</label>
+                            <div class="custom-select" data-enhance="field-lang">
+                                <select id="field-lang">
+                                    <option value="pt">Portugues</option>
+                                    <option value="en">English</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="switch-row">
-                    <label class="switch">
-                        <input type="checkbox" id="field-autosuffix" checked>
-                        <span class="switch-track"><span class="switch-thumb"></span></span>
-                        <span class="switch-label">Adicionar numero automatico</span>
-                    </label>
-                    <label class="switch">
-                        <input type="checkbox" id="field-avoid-dup" checked>
-                        <span class="switch-track"><span class="switch-thumb"></span></span>
-                        <span class="switch-label">Evitar nomes repetidos</span>
-                    </label>
+                <div class="field-section">
+                    <span class="field-section-title">Personalizacao do nome</span>
+                    <div class="field-grid">
+                        <div class="field">
+                            <label for="field-baseword">Palavra-base (opcional)</label>
+                            <input type="text" id="field-baseword" placeholder="Ex: Ninja" maxlength="16">
+                            <span class="field-hint">Usada nos formatos Palavra e Adjetivo + Substantivo</span>
+                        </div>
+
+                        <div class="field">
+                            <label for="field-prefix">Prefixo do nome (opcional)</label>
+                            <input type="text" id="field-prefix" placeholder="Ex: Player" maxlength="12">
+                            <span class="field-hint">Usado no formato Prefixo + Numero</span>
+                        </div>
+
+                        <div class="field">
+                            <label>Tamanho do nome</label>
+                            <div class="pill-group" role="radiogroup" aria-label="Tamanho do nome">
+                                <label class="pill">
+                                    <input type="radio" name="nameSize" value="curto" checked>
+                                    <span>Curto</span>
+                                </label>
+                                <label class="pill">
+                                    <input type="radio" name="nameSize" value="longo">
+                                    <span>Longo</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field-section">
+                    <span class="field-section-title">Comportamento</span>
+                    <div class="switch-row">
+                        <label class="switch">
+                            <input type="checkbox" id="field-autosuffix" checked>
+                            <span class="switch-track"><span class="switch-thumb"></span></span>
+                            <span class="switch-label">Adicionar numero automatico</span>
+                        </label>
+                        <label class="switch">
+                            <input type="checkbox" id="field-avoid-dup" checked>
+                            <span class="switch-track"><span class="switch-thumb"></span></span>
+                            <span class="switch-label">Evitar nomes repetidos</span>
+                        </label>
+                    </div>
                 </div>
             </div>
 
@@ -119,24 +134,30 @@
                     </div>
                 </div>
 
-                <div class="switch-row">
-                    <label class="switch">
-                        <input type="checkbox" id="field-custom-pass-toggle">
-                        <span class="switch-track"><span class="switch-thumb"></span></span>
-                        <span class="switch-label">Usar senha personalizada para todas as contas</span>
-                    </label>
-                </div>
+                <div class="field-section">
+                    <span class="field-section-title">Senha personalizada</span>
+                    <div class="switch-row">
+                        <label class="switch">
+                            <input type="checkbox" id="field-custom-pass-toggle">
+                            <span class="switch-track"><span class="switch-thumb"></span></span>
+                            <span class="switch-label">Usar senha personalizada para todas as contas</span>
+                        </label>
+                    </div>
 
-                <div class="field">
-                    <label for="field-custom-pass-value">Senha fixa</label>
-                    <input type="text" id="field-custom-pass-value" placeholder="Digite a senha que sera usada em todas as contas" disabled>
-                </div>
-
-                <div class="field-grid" id="password-charset-group">
                     <div class="field">
-                        <label for="field-pass-length">Tamanho da senha</label>
-                        <input type="number" id="field-pass-length" min="6" max="32" value="12">
-                        <span class="field-hint">Entre 6 e 32</span>
+                        <label for="field-custom-pass-value">Senha fixa</label>
+                        <input type="text" id="field-custom-pass-value" placeholder="Digite a senha que sera usada em todas as contas" disabled>
+                    </div>
+                </div>
+
+                <div class="field-section" id="password-charset-group">
+                    <span class="field-section-title">Tamanho e caracteres</span>
+                    <div class="field-grid">
+                        <div class="field">
+                            <label for="field-pass-length">Tamanho da senha</label>
+                            <input type="number" id="field-pass-length" min="6" max="32" value="12">
+                            <span class="field-hint">Entre 6 e 32</span>
+                        </div>
                     </div>
 
                     <div class="checkbox-grid">
@@ -159,17 +180,20 @@
                     </div>
                 </div>
 
-                <div class="switch-row">
-                    <label class="switch">
-                        <input type="checkbox" id="field-strong" checked>
-                        <span class="switch-track"><span class="switch-thumb"></span></span>
-                        <span class="switch-label">Senha forte (garante todos os tipos escolhidos)</span>
-                    </label>
-                    <label class="switch">
-                        <input type="checkbox" id="field-avoid-similar" checked>
-                        <span class="switch-track"><span class="switch-thumb"></span></span>
-                        <span class="switch-label">Evitar caracteres semelhantes (l, 1, I, O, 0)</span>
-                    </label>
+                <div class="field-section">
+                    <span class="field-section-title">Seguranca</span>
+                    <div class="switch-row">
+                        <label class="switch">
+                            <input type="checkbox" id="field-strong" checked>
+                            <span class="switch-track"><span class="switch-thumb"></span></span>
+                            <span class="switch-label">Senha forte (garante todos os tipos escolhidos)</span>
+                        </label>
+                        <label class="switch">
+                            <input type="checkbox" id="field-avoid-similar" checked>
+                            <span class="switch-track"><span class="switch-thumb"></span></span>
+                            <span class="switch-label">Evitar caracteres semelhantes (l, 1, I, O, 0)</span>
+                        </label>
+                    </div>
                 </div>
             </div>
 
@@ -182,17 +206,20 @@
                     </div>
                 </div>
 
-                <div class="switch-row">
-                    <label class="switch">
-                        <input type="checkbox" id="field-auto-copy">
-                        <span class="switch-track"><span class="switch-thumb"></span></span>
-                        <span class="switch-label">Copiar tudo automaticamente apos gerar</span>
-                    </label>
-                    <label class="switch">
-                        <input type="checkbox" id="field-auto-download">
-                        <span class="switch-track"><span class="switch-thumb"></span></span>
-                        <span class="switch-label">Baixar TXT automaticamente apos gerar</span>
-                    </label>
+                <div class="field-section">
+                    <span class="field-section-title">Automacao</span>
+                    <div class="switch-row">
+                        <label class="switch">
+                            <input type="checkbox" id="field-auto-copy">
+                            <span class="switch-track"><span class="switch-thumb"></span></span>
+                            <span class="switch-label">Copiar tudo automaticamente apos gerar</span>
+                        </label>
+                        <label class="switch">
+                            <input type="checkbox" id="field-auto-download">
+                            <span class="switch-track"><span class="switch-thumb"></span></span>
+                            <span class="switch-label">Baixar TXT automaticamente apos gerar</span>
+                        </label>
+                    </div>
                 </div>
 
                 <div class="progress-track" id="generate-progress">
@@ -210,7 +237,7 @@
             </div>
         </section>
 
-        <section class="results-column">
+        <section class="results-stack">
             <div class="card results-card">
                 <div class="results-header">
                     <div>
@@ -241,25 +268,31 @@
                     </div>
                 </div>
 
-                <div class="toolbar">
-                    <div class="search-wrap">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="11" cy="11" r="8"/>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                        </svg>
-                        <input type="text" id="field-search" placeholder="Pesquisar por nome de usuario">
+                <div class="field-section">
+                    <span class="field-section-title">Buscar e filtrar</span>
+                    <div class="toolbar">
+                        <div class="search-wrap">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"/>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                            </svg>
+                            <input type="text" id="field-search" placeholder="Pesquisar por nome de usuario">
+                        </div>
+                        <label class="checkbox checkbox-compact">
+                            <input type="checkbox" id="field-fav-only">
+                            <span>Somente favoritos</span>
+                        </label>
                     </div>
-                    <label class="checkbox checkbox-compact">
-                        <input type="checkbox" id="field-fav-only">
-                        <span>Somente favoritos</span>
-                    </label>
                 </div>
 
-                <div class="toolbar toolbar-actions">
-                    <button type="button" class="btn btn-ghost btn-small" id="btn-copy-all">Copiar tudo</button>
-                    <button type="button" class="btn btn-ghost btn-small" id="btn-export-txt">Exportar TXT</button>
-                    <button type="button" class="btn btn-ghost btn-small" id="btn-export-csv">Exportar CSV</button>
-                    <button type="button" class="btn btn-ghost btn-small" id="btn-export-json">Exportar JSON</button>
+                <div class="field-section">
+                    <span class="field-section-title">Exportar e copiar</span>
+                    <div class="toolbar toolbar-actions">
+                        <button type="button" class="btn btn-ghost btn-small" id="btn-copy-all">Copiar tudo</button>
+                        <button type="button" class="btn btn-ghost btn-small" id="btn-export-txt">Exportar TXT</button>
+                        <button type="button" class="btn btn-ghost btn-small" id="btn-export-csv">Exportar CSV</button>
+                        <button type="button" class="btn btn-ghost btn-small" id="btn-export-json">Exportar JSON</button>
+                    </div>
                 </div>
 
                 <div class="results-list-wrap">
