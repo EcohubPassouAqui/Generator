@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>codywas · 404</title>
+<meta name="description" content="Página não encontrada · codywas">
+<link rel="icon" type="image/png" href="../image/codywas.png">
+<link rel="stylesheet" href="../css/erro.css">
+<link rel="stylesheet" href="../css/musica.css">
+</head>
+<body data-error="404">
+
+<div class="bg"></div>
+<div class="bg-grid"></div>
+<div class="smoke"></div>
+<div class="particles" id="particles"></div>
+<div class="stars" id="stars"></div>
+<div class="scanline"></div>
+<div class="noise"></div>
+<div class="vignette"></div>
+
+<main class="page">
+
+  <nav class="status-tabs" aria-label="Navegação (indisponível)">
+    <span class="status-tab" aria-disabled="true">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 3l9 6.5"></path><path d="M5 10v10h14V10"></path></svg>
+      Home
+    </span>
+    <span class="status-tab" aria-disabled="true">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3 4 14h6l-1 7 9-11h-6z"></path></svg>
+      Generator
+    </span>
+    <span class="status-tab" aria-disabled="true">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-4"></path><path d="M9 18V9"></path><path d="M15 18V6"></path><path d="M21 18v-9"></path></svg>
+      Status
+    </span>
+    <span class="status-tab" aria-disabled="true">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"></circle><path d="M4.5 20c1.4-3.6 4.3-5.5 7.5-5.5s6.1 1.9 7.5 5.5"></path></svg>
+      Sobre nós
+    </span>
+  </nav>
+
+  <section class="error-content" aria-live="polite">
+
+    <img src="../image/codywas.png" alt="codywas" class="error-logo" onerror="this.style.display='none'">
+
+    <div class="error-code-wrap">
+      <div class="error-code-layers" aria-hidden="true">
+        <span style="transform: translateZ(-6px) translateY(2px);"></span>
+        <span style="transform: translateZ(-12px) translateY(4px);"></span>
+        <span style="transform: translateZ(-18px) translateY(6px);"></span>
+      </div>
+      <span class="error-code" id="error-code" data-text="404">404</span>
+    </div>
+
+    <span class="fb-badge" id="error-http">
+      <span class="fb-badge-dot"></span>
+      HTTP 404
+    </span>
+
+    <h1 class="error-title" id="error-title">Página não encontrada</h1>
+    <p class="error-subtitle" id="error-subtitle">O recurso que você tentou acessar não existe ou foi movido.</p>
+
+    <div class="error-btn-group">
+      <a href="../../index.html" class="error-btn is-primary" id="btn-voltar">
+        <svg class="error-btn-spinner" viewBox="0 0 100 100" width="14" height="14" aria-hidden="true">
+          <circle cx="50" cy="50" r="42" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-dasharray="66 200"></circle>
+        </svg>
+        <span class="error-btn-label">Voltar ao painel</span>
+        <svg class="error-btn-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </a>
+    </div>
+
+  </section>
+
+</main>
+
+<div class="musica">
+  <img class="musica__cover" src="" alt="">
+  <div class="musica__body">
+    <div class="musica__top">
+      <div class="musica__info">
+        <span class="musica__name">Cody Was</span>
+        <span class="musica__title">Carregando...</span>
+      </div>
+      <div class="musica__controls">
+        <button class="musica__bookmark" type="button" aria-pressed="false" aria-label="Favoritar">
+          <i data-lucide="bookmark"></i>
+        </button>
+        <button class="musica__prev" type="button" aria-label="Faixa anterior">
+          <i data-lucide="skip-back"></i>
+        </button>
+        <button class="musica__toggle" type="button" aria-label="Reproduzir">
+          <i data-lucide="play" class="musica__icon-play"></i>
+          <i data-lucide="pause" class="musica__icon-pause"></i>
+        </button>
+        <button class="musica__next" type="button" aria-label="Próxima faixa">
+          <i data-lucide="skip-forward"></i>
+        </button>
+      </div>
+    </div>
+    <div class="musica__progress-row">
+      <span class="musica__time musica__time--current">0:00</span>
+      <div class="musica__wave" role="slider" tabindex="0" aria-label="Progresso da música" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+      <span class="musica__time musica__time--duration">0:00</span>
+    </div>
+  </div>
+  <audio class="musica__audio" preload="auto"></audio>
+</div>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<script src="../js/erro.js"></script>
+<script src="../js/musica.js"></script>
+</body>
+</html>

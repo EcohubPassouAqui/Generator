@@ -1,174 +1,98 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carregando</title>
-    <link rel="icon" type="image/png" href="src/image/codywas.png">
-    <link rel="stylesheet" href="src/style/loading.css">
-    <link rel="stylesheet" href="src/style/player.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cody Was</title>
+<link rel="icon" type="image/png" href="src/image/codywas.png">
+<link rel="stylesheet" href="src/css/index.css">
+<link rel="stylesheet" href="src/css/musica.css">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 </head>
 <body>
-<div id="loading-screen">
-    <div class="bg-base"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-particles">
-        <span class="particle"></span>
-        <span class="particle"></span>
-        <span class="particle"></span>
-        <span class="particle"></span>
-        <span class="particle"></span>
-        <span class="particle"></span>
-        <span class="particle"></span>
-    </div>
-    <div class="bg-vignette"></div>
 
-    <div class="loading-container">
-        <div class="logo-wrap">
-            <div class="logo-glow"></div>
-            <img src="src/image/codywas.png" alt="Generator" class="logo-icon">
-            <svg class="success-check" id="success-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20 6 9 17l-5-5"/>
-            </svg>
-        </div>
-
-        <div class="loading-text">Carregando</div>
-        <div class="loading-subtext">
-            <span id="stage-text">Inicializando...</span>
-            <span class="dots">
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-            </span>
-        </div>
-
-        <div class="stage-caption" id="stage-caption">Etapa 1 de 4</div>
-
-        <div class="progress-bar" id="progress-bar">
-            <div class="progress-fill"></div>
-        </div>
-        <div class="progress-meta">
-            <span class="progress-percent">0%</span>
-            <span class="time-remaining" id="time-remaining">~2s restantes</span>
-        </div>
-    </div>
+<div class="bg">
+  <div class="bg-particle bgp1"></div>
+  <div class="bg-particle bgp2"></div>
+  <div class="bg-particle bgp3"></div>
+  <div class="bg-particle bgp4"></div>
+  <div class="bg-particle bgp5"></div>
+  <div class="bg-particle small bgp6"></div>
+  <div class="bg-particle small bgp7"></div>
+  <div class="bg-particle small bgp8"></div>
+  <div class="bg-particle small bgp9"></div>
+  <div class="bg-particle small bgp10"></div>
 </div>
 
-<div class="music-player" id="music-player">
-    <div class="music-top-row">
-        <div class="music-cover">
-            <img src="src/image/battlecry_cover.jpg" alt="Capa do album">
-            <div class="music-cover-ring"></div>
-            <div class="music-live-dot"></div>
-        </div>
-
-        <div class="music-info">
-            <div class="music-status-row">
-                <div class="music-bars">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-                <span id="music-status-text">Pausado</span>
-            </div>
-            <span class="music-title">Battlecry</span>
-            <span class="music-artist">Spotdown</span>
-        </div>
-
-        <button class="music-favorite tooltip" id="favorite-btn" data-tooltip="Favoritar" aria-label="Favoritar musica">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/>
-            </svg>
-        </button>
-
-        <button class="music-expand-btn tooltip" id="expand-btn" data-tooltip="Modo compacto" aria-label="Alternar modo compacto">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="18 15 12 9 6 15"/>
-            </svg>
-        </button>
+<main class="hero-center">
+  <div class="hero-center-inner">
+    <div class="hero-logo-wrap">
+      <div class="hero-logo-glow"></div>
+      <img src="src/image/codywas.png" alt="Cody Was" class="hero-logo" onerror="this.style.display='none'">
     </div>
 
-    <div class="music-progress-section">
-        <div class="music-progress-bar" id="music-progress-bar" tabindex="0" role="slider" aria-label="Progresso da musica" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-            <div class="music-progress-fill" id="music-progress-fill">
-                <div class="music-progress-handle"></div>
-            </div>
-        </div>
-        <div class="music-time-row">
-            <span id="music-current-time">0:00</span>
-            <span id="music-duration">0:00</span>
-        </div>
+    <p class="hero-brand-name">Cody Was</p>
+
+    <h1 class="hero-heading">Convites gerados na<br><span class="accent-text">hora, sem complicação</span></h1>
+    <p class="hero-subtitle">O jeito mais rápido de gerar, validar e acompanhar acesso</p>
+    <p class="hero-center-desc">A Cody Was oferece um sistema completo de convites: gere seu código em segundos, acompanhe o status em tempo real e entre para a comunidade sem enrolação.</p>
+
+    <div class="hero-center-actions">
+      <div class="nav-dropdown nav-dropdown-center" id="mainDropdown">
+        <button class="nav-dropdown-trigger" id="mainDropdownTrigger" type="button" aria-haspopup="true" aria-expanded="false">
+          <span id="mainDropdownLabel">Navegação</span>
+        </button>
+        <div class="nav-dropdown-menu" id="mainDropdownMenu"></div>
+        <script type="application/json" id="mainDropdownData">
+          [
+            { "icon": "sparkles", "label": "Generator", "href": "src/pages/generator.html" },
+            { "icon": "activity", "label": "Status", "href": "src/pages/erro.html" },
+            { "icon": "info", "label": "Sobre nós", "href": "src/pages/erro.html" }
+          ]
+        </script>
+      </div>
+
+      <a class="btn-community btn-discord-only" href="https://discord.gg/5H5HujAapC" target="_blank" rel="noopener noreferrer" aria-label="Discord">
+        <img src="src/image/discord.png" alt="Discord" class="btn-community-icon" onerror="this.style.display='none'">
+      </a>
     </div>
+  </div>
+</main>
 
-    <div class="music-controls-row">
-        <button class="music-btn small tooltip" id="shuffle-btn" data-tooltip="Aleatorio" aria-label="Reproducao aleatoria">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="16 3 21 3 21 8"/>
-                <line x1="4" y1="20" x2="21" y2="3"/>
-                <polyline points="21 16 21 21 16 21"/>
-                <line x1="15" y1="15" x2="21" y2="21"/>
-                <line x1="4" y1="4" x2="9" y2="9"/>
-            </svg>
+<div class="musica">
+  <img class="musica__cover" src="" alt="">
+  <div class="musica__body">
+    <div class="musica__top">
+      <div class="musica__info">
+        <span class="musica__name">Cody Was</span>
+        <span class="musica__title">Carregando...</span>
+      </div>
+      <div class="musica__controls">
+        <button class="musica__bookmark" type="button" aria-pressed="false" aria-label="Favoritar">
+          <i data-lucide="bookmark"></i>
         </button>
-
-        <button class="music-btn small tooltip disabled" id="prev-btn" data-tooltip="Indisponivel" aria-label="Musica anterior" disabled>
-            <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M6 5h2v14H6zM20 5v14l-11-7z"/>
-            </svg>
+        <button class="musica__prev" type="button" aria-label="Faixa anterior">
+          <i data-lucide="skip-back"></i>
         </button>
-
-        <button class="music-toggle tooltip" id="music-toggle" data-tooltip="Reproduzir" aria-label="Reproduzir musica">
-            <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M8 5v14l11-7z"/>
-            </svg>
-            <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M6 5h4v14H6zM14 5h4v14h-4z"/>
-            </svg>
+        <button class="musica__toggle" type="button" aria-label="Reproduzir">
+          <i data-lucide="play" class="musica__icon-play"></i>
+          <i data-lucide="pause" class="musica__icon-pause"></i>
         </button>
-
-        <button class="music-btn small tooltip disabled" id="next-btn" data-tooltip="Indisponivel" aria-label="Proxima musica" disabled>
-            <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M16 5h2v14h-2zM4 5v14l11-7z"/>
-            </svg>
+        <button class="musica__next" type="button" aria-label="Próxima faixa">
+          <i data-lucide="skip-forward"></i>
         </button>
-
-        <button class="music-btn small tooltip" id="repeat-btn" data-tooltip="Repetir" aria-label="Repetir musica">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="17 1 21 5 17 9"/>
-                <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
-                <polyline points="7 23 3 19 7 15"/>
-                <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
-            </svg>
-        </button>
+      </div>
     </div>
-
-    <div class="music-bottom-row">
-        <button class="volume-btn tooltip" id="volume-btn" data-tooltip="Mudo" aria-label="Volume"></button>
-        <div class="volume-slider-wrap">
-            <input type="range" class="volume-slider" id="volume-slider" min="0" max="100" value="60" aria-label="Controle de volume">
-        </div>
-        <span class="volume-percent" id="volume-percent">60%</span>
-        <button class="music-options-btn tooltip" id="options-btn" data-tooltip="Opcoes" aria-label="Opcoes da musica">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="1"/>
-                <circle cx="12" cy="5" r="1"/>
-                <circle cx="12" cy="19" r="1"/>
-            </svg>
-        </button>
+    <div class="musica__progress-row">
+      <span class="musica__time musica__time--current">0:00</span>
+      <div class="musica__wave" role="slider" tabindex="0" aria-label="Progresso da música" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+      <span class="musica__time musica__time--duration">0:00</span>
     </div>
-
-    <div class="music-meta-row">
-        <span>MP3 - 192kbps</span>
-        <span class="music-quality-badge">HQ</span>
-    </div>
-
-    <audio id="bg-audio" src="src/music/battlecry_spotdown.org.mp3" preload="auto"></audio>
+  </div>
+  <audio class="musica__audio" preload="auto"></audio>
 </div>
 
-<div class="music-toast" id="music-toast"></div>
-
-<script src="src/script/player.js"></script>
-<script src="src/script/loading.js"></script>
+<script src="src/js/index.js"></script>
+<script src="src/js/musica.js"></script>
 </body>
 </html>

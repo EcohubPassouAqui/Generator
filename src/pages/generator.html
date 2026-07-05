@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>codywas - gerador</title>
+  <link rel="icon" type="image/png" href="../image/codywas.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;550;600;650;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/generator/shell.css">
+  <link rel="stylesheet" href="../css/generator/generator.css">
+  <link rel="stylesheet" href="../css/musica.css">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body>
+
+  <div class="bg"></div>
+  <div class="noise"></div>
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <div class="app-shell">
+
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <img class="sidebar-brand-mark" src="../image/codywas.png" alt="codywas" onerror="this.style.display='none'">
+        <span class="sidebar-brand-name">codywas</span>
+      </div>
+
+      <div class="sidebar-search">
+        <i data-lucide="search"></i>
+        <span>Buscar</span>
+        <kbd>/</kbd>
+      </div>
+
+      <nav class="sidebar-group">
+        <span class="sidebar-group-label">Categorias</span>
+        <button type="button" class="sidebar-link is-active" data-view="status">
+          <i data-lucide="activity"></i>Status
+        </button>
+        <button type="button" class="sidebar-link" data-view="gerador">
+          <i data-lucide="sparkles"></i>Gerador
+        </button>
+        <button type="button" class="sidebar-link" data-view="resultados">
+          <i data-lucide="list"></i>Resultados
+          <span class="sidebar-link-badge" id="sidebarResultsBadge">0</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-divider"></div>
+
+      <div class="sidebar-group">
+        <span class="sidebar-group-label">Presets salvos</span>
+        <button type="button" class="sidebar-preset" data-preset-slot="1">
+          <span class="sidebar-preset-dot"></span>
+          <span>Contas padrão</span>
+          <i data-lucide="chevron-right" class="sidebar-preset-arrow"></i>
+        </button>
+        <button type="button" class="sidebar-preset" data-preset-slot="2">
+          <span class="sidebar-preset-dot"></span>
+          <span>Senha extrema</span>
+          <i data-lucide="chevron-right" class="sidebar-preset-arrow"></i>
+        </button>
+        <button type="button" class="sidebar-preset" data-preset-slot="3">
+          <span class="sidebar-preset-dot"></span>
+          <span>Leva em massa</span>
+          <i data-lucide="chevron-right" class="sidebar-preset-arrow"></i>
+        </button>
+        <button type="button" class="sidebar-preset" id="saveFavoriteBtnSidebar">
+          <i data-lucide="folder-plus" style="width:14px;height:14px;color:var(--text-faint);"></i>
+          <span>Salvar preset atual</span>
+        </button>
+      </div>
+
+      <div class="sidebar-spacer"></div>
+
+      <div class="sidebar-card">
+        <button type="button" class="sidebar-card-close" id="dismissTipBtn">
+          <i data-lucide="x"></i>
+        </button>
+        <div class="sidebar-card-icon"><i data-lucide="zap"></i></div>
+        <p class="sidebar-card-title">Gere em lote</p>
+        <p class="sidebar-card-text">Ajuste as regras uma vez e gere até 50 contas por leva, com histórico completo.</p>
+        <button type="button" class="clear-btn" style="width:100%;" id="sidebarGoGenerate">
+          Ir para geração
+        </button>
+      </div>
+
+      <div class="sidebar-user">
+        <img class="sidebar-user-avatar" src="../image/esquilo.jpg" alt="Anônimo" onerror="this.style.background='var(--bg-panel-raised)'">
+        <div class="sidebar-user-info">
+          <span class="sidebar-user-name">Anônimo</span>
+          <span class="sidebar-user-role">Sessão local</span>
+        </div>
+        <a class="sidebar-logout" href="../../index.html" title="Sair e voltar ao painel">
+          <i data-lucide="log-out"></i>
+        </a>
+      </div>
+    </aside>
+
+    <div class="main-area">
+
+      <header class="main-topbar">
+        <div class="main-topbar-crumb">
+          <i data-lucide="sparkles"></i>
+          <span id="topbarCrumbLabel">Status</span>
+        </div>
+      </header>
+
+      <main class="main-content">
+
+        <section class="view is-active" id="view-status">
+
+          <div class="view-head">
+            <div>
+              <h1>Status</h1>
+              <p>Visão geral da atividade do gerador: contas criadas, força média e disponibilidade das APIs.</p>
+            </div>
+          </div>
+
+          <section class="stat-row">
+            <div class="stat-card" data-stat="total">
+              <div class="stat-card-icon"><i data-lucide="database"></i></div>
+              <div class="stat-card-body">
+                <span class="stat-card-label">Geradas</span>
+                <span class="stat-card-value" id="statTotal">0</span>
+              </div>
+            </div>
+
+            <div class="stat-card" data-stat="batch">
+              <div class="stat-card-icon"><i data-lucide="layers"></i></div>
+              <div class="stat-card-body">
+                <span class="stat-card-label">Última leva</span>
+                <span class="stat-card-value" id="statLastBatch">—</span>
+              </div>
+            </div>
+
+            <div class="stat-card" data-stat="strength">
+              <div class="stat-card-icon"><i data-lucide="shield-check"></i></div>
+              <div class="stat-card-body">
+                <span class="stat-card-label">Força média</span>
+                <span class="stat-card-value" id="statStrength">—</span>
+              </div>
+            </div>
+
+            <div class="stat-card" data-stat="time">
+              <div class="stat-card-icon"><i data-lucide="timer"></i></div>
+              <div class="stat-card-body">
+                <span class="stat-card-label">Tempo médio</span>
+                <span class="stat-card-value" id="statAvgTime">—</span>
+              </div>
+            </div>
+
+            <div class="stat-card" data-stat="copies">
+              <div class="stat-card-icon"><i data-lucide="copy-check"></i></div>
+              <div class="stat-card-body">
+                <span class="stat-card-label">Cópias</span>
+                <span class="stat-card-value" id="statCopies">0</span>
+              </div>
+            </div>
+
+            <div class="stat-card stat-card-status">
+              <span class="status-dot" id="statusDot"></span>
+              <span class="stat-card-label" id="statusLabel">Pronto</span>
+            </div>
+          </section>
+
+          <section class="status-hero">
+            <div class="status-hero-head">
+              <div class="status-hero-title">
+                <i data-lucide="trending-up"></i>
+                <div>
+                  <span class="status-hero-title-main">Atividade de geração</span>
+                  <span class="status-hero-title-sub">Contas por leva ao longo da sessão</span>
+                </div>
+              </div>
+              <div class="status-hero-legend">
+                <span class="status-hero-legend-item">
+                  <span class="legend-dot"></span>Contas geradas
+                </span>
+                <span class="status-hero-value" id="heroCurrentValue">0</span>
+              </div>
+            </div>
+            <div class="status-hero-graph" id="lineChartWrap">
+              <svg id="lineChartSvg" viewBox="0 0 760 200" preserveAspectRatio="none"></svg>
+              <div class="status-hero-empty" id="lineChartEmpty">
+                <i data-lucide="activity"></i>
+                <span>Gere contas para ver o gráfico da sessão</span>
+              </div>
+            </div>
+            <div class="status-hero-axis" id="lineChartAxis"></div>
+          </section>
+
+          <div class="status-block">
+            <div class="panel-box">
+              <div class="panel-box-head">
+                <span class="panel-box-title"><i data-lucide="shield-check"></i>Força das senhas geradas</span>
+                <span class="panel-box-sub" id="strengthGraphValue">—</span>
+              </div>
+              <div class="status-hero-graph status-hero-graph-sm" id="strengthChartWrap">
+                <svg id="strengthChartSvg" viewBox="0 0 340 130" preserveAspectRatio="none"></svg>
+                <div class="status-hero-empty" id="strengthChartEmpty">
+                  <i data-lucide="shield"></i>
+                  <span>sem dados ainda</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel-box">
+              <div class="panel-box-head">
+                <span class="panel-box-title"><i data-lucide="plug-zap"></i>APIs conectadas</span>
+              </div>
+              <div class="api-list">
+                <div class="api-row">
+                  <span class="api-row-dot" id="apiDotRandomUser"></span>
+                  <div class="api-row-body">
+                    <div class="api-row-name">randomuser.me</div>
+                    <div class="api-row-desc">Nomes reais para o usuário</div>
+                  </div>
+                  <span class="api-row-status" id="apiStatusRandomUser">aguardando</span>
+                </div>
+                <div class="api-row">
+                  <span class="api-row-dot" id="apiDotPasswordWolf"></span>
+                  <div class="api-row-body">
+                    <div class="api-row-name">passwordwolf.com</div>
+                    <div class="api-row-desc">Geração remota de senha</div>
+                  </div>
+                  <span class="api-row-status" id="apiStatusPasswordWolf">aguardando</span>
+                </div>
+                <div class="api-row">
+                  <span class="api-row-dot" id="apiDotDinopass"></span>
+                  <div class="api-row-body">
+                    <div class="api-row-name">dinopass.com</div>
+                    <div class="api-row-desc">Fallback de senha</div>
+                  </div>
+                  <span class="api-row-status" id="apiStatusDinopass">aguardando</span>
+                </div>
+                <div class="api-row">
+                  <span class="api-row-dot" id="apiDotLocal"></span>
+                  <div class="api-row-body">
+                    <div class="api-row-name">Gerador local</div>
+                    <div class="api-row-desc">Fallback via crypto do navegador</div>
+                  </div>
+                  <span class="api-row-status" id="apiStatusLocal">aguardando</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <section class="view" id="view-gerador">
+
+          <div class="view-head">
+            <div>
+              <h1>Gerador</h1>
+              <p>Crie nomes de usuário e senhas aleatórias via API pública, configure regras e acompanhe tudo em tempo real.</p>
+            </div>
+          </div>
+
+          <section class="dash-grid" id="configPanel">
+
+            <article class="dash-card" data-card="username">
+              <div class="dash-card-frame">
+
+                <div class="dash-card-head">
+                  <div class="dash-card-title">
+                    <i data-lucide="user"></i>
+                    <span>Nome de usuário</span>
+                  </div>
+                  <span class="dash-card-status" id="userCardStatus">pronto</span>
+                </div>
+
+                <div class="dash-card-config">
+
+                  <div class="field-row">
+                    <label>Palavra-base <span class="field-optional">(opcional)</span></label>
+                    <div class="input-wrap">
+                      <input type="text" id="baseWord" class="text-input" placeholder="ex: dragon, night, edu..." maxlength="16">
+                      <i data-lucide="type"></i>
+                    </div>
+                  </div>
+
+                  <div class="field-row">
+                    <label>Comprimento</label>
+                    <div class="bar-slider-wrap">
+                      <div class="bar-slider" id="userLengthBars" data-min="4" data-max="24" data-target="userLength"></div>
+                      <input type="number" id="userLengthNum" class="range-number" min="4" max="24" value="10">
+                    </div>
+                    <input type="range" id="userLength" min="4" max="24" value="10" class="sr-only-range">
+                  </div>
+
+                  <div class="field-row-split">
+                    <div class="field-row">
+                      <label>Estilo</label>
+                      <div class="select-wrap" id="userStyleSelect">
+                        <button type="button" class="select-btn" data-value="wordnum">
+                          <span>Palavra + número</span>
+                          <i data-lucide="chevron-down"></i>
+                        </button>
+                        <div class="select-menu">
+                          <div class="select-option is-active" data-value="wordnum">Palavra + número</div>
+                          <div class="select-option" data-value="random">Letras aleatórias</div>
+                          <div class="select-option" data-value="camel">CamelCase duplo</div>
+                          <div class="select-option" data-value="realname">Nome real (API)</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="field-row">
+                      <label>Fonte</label>
+                      <div class="select-wrap" id="userSourceSelect">
+                        <button type="button" class="select-btn" data-value="api">
+                          <span>API pública</span>
+                          <i data-lucide="chevron-down"></i>
+                        </button>
+                        <div class="select-menu">
+                          <div class="select-option is-active" data-value="api">API pública</div>
+                          <div class="select-option" data-value="local">Gerador local</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="field-row-split">
+                    <div class="field-row">
+                      <label>Separador</label>
+                      <div class="select-wrap" id="sepSelect">
+                        <button type="button" class="select-btn" data-value="">
+                          <span>Nenhum</span>
+                          <i data-lucide="chevron-down"></i>
+                        </button>
+                        <div class="select-menu">
+                          <div class="select-option is-active" data-value="">Nenhum</div>
+                          <div class="select-option" data-value="_">Underline _</div>
+                          <div class="select-option" data-value=".">Ponto .</div>
+                          <div class="select-option" data-value="-">Traço -</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="field-row">
+                      <label>Sufixo fixo <span class="field-optional">(opcional)</span></label>
+                      <div class="input-wrap">
+                        <input type="text" id="suffixWord" class="text-input" placeholder="ex: BR, 2026..." maxlength="8">
+                        <i data-lucide="hash"></i>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="field-row">
+                    <label>Prefixo fixo <span class="field-optional">(opcional)</span></label>
+                    <div class="input-wrap">
+                      <input type="text" id="prefixWord" class="text-input" placeholder="ex: mr, dev..." maxlength="8">
+                      <i data-lucide="hash"></i>
+                    </div>
+                  </div>
+
+                  <div class="field-row switch-row">
+                    <label>Incluir números</label>
+                    <button type="button" class="check-box is-on" id="userNumbersSwitch"><svg class="check-box-mark" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                  </div>
+
+                  <div class="field-row switch-row">
+                    <label>Capitalizar automaticamente</label>
+                    <button type="button" class="check-box is-on" id="userCapitalizeSwitch"><svg class="check-box-mark" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                  </div>
+
+                  <div class="field-row switch-row">
+                    <label>Remover caracteres repetidos</label>
+                    <button type="button" class="check-box" id="userNoRepeatSwitch"><svg class="check-box-mark" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                  </div>
+
+                  <div class="field-row switch-row">
+                    <label>Evitar nomes já usados</label>
+                    <button type="button" class="check-box is-on" id="userNoDupeSwitch"><svg class="check-box-mark" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                  </div>
+
+                </div>
+
+                <div class="dash-card-graph">
+                  <div class="graph-head">
+                    <span class="graph-title"><span class="live-dot"></span>Distribuição de comprimento</span>
+                    <span class="graph-value" id="userGraphValue">10 caracteres</span>
+                  </div>
+                  <div class="bar-chart" id="userBarChart"></div>
+                </div>
+
+                <div class="dash-card-progress">
+                  <div class="progress-track">
+                    <div class="progress-fill" id="userProgressFill"></div>
+                  </div>
+                  <span class="progress-label" id="userProgressLabel">0%</span>
+                </div>
+
+              </div>
+            </article>
+
+            <article class="dash-card" data-card="password">
+              <div class="dash-card-frame">
+
+                <div class="dash-card-head">
+                  <div class="dash-card-title">
+                    <i data-lucide="key-round"></i>
+                    <span>Senha</span>
+                  </div>
+                  <span class="dash-card-status" id="passCardStatus">pronto</span>
+                </div>
+
+                <div class="dash-card-config">
+
+                  <div class="field-row">
+                    <label>Comprimento</label>
+                    <div class="bar-slider-wrap">
+                      <div class="bar-slider" id="passLengthBars" data-min="6" data-max="48" data-target="passLength"></div>
+                      <input type="number" id="passLengthNum" class="range-number" min="6" max="48" value="16">
+                    </div>
+                    <input type="range" id="passLength" min="6" max="48" value="16" class="sr-only-range">
+                  </div>
+
+                  <div class="preset-row">
+                    <button type="button" class="preset-btn" data-preset="fraca">Fraca</button>
+                    <button type="button" class="preset-btn" data-preset="media">Média</button>
+                    <button type="button" class="preset-btn" data-preset="forte">Forte</button>
+                    <button type="button" class="preset-btn" data-preset="extrema">Extrema</button>
+                  </div>
+
+                  <div class="preset-row">
+                    <button type="button" class="preset-btn preset-btn-ghost" id="passMinBtn"><i data-lucide="chevron-down"></i>Mínimo</button>
+                    <button type="button" class="preset-btn preset-btn-ghost" id="passRandomBtn"><i data-lucide="dices"></i>Aleatório</button>
+                    <button type="button" class="preset-btn preset-btn-ghost" id="passMaxBtn"><i data-lucide="chevron-up"></i>Máximo</button>
+                  </div>
+
+                  <div class="field-row">
+                    <label>Fonte</label>
+                    <div class="select-wrap" id="passSourceSelect">
+                      <button type="button" class="select-btn" data-value="api">
+                        <span>API pública (passwordwolf)</span>
+                        <i data-lucide="chevron-down"></i>
+                      </button>
+                      <div class="select-menu">
+                        <div class="select-option is-active" data-value="api">API pública (passwordwolf)</div>
+                        <div class="select-option" data-value="local">Gerador local</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="field-row switch-row">
+                    <label>Maiúsculas (A-Z)</label>
+                    <button type="button" class="check-box is-on" id="passUpperSwitch"><svg class="check-box-mark" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                  </div>
+
+                  <div class="field-row switch-row">
+                    <label>Números (0-9)</label>
+                    <button type="button" class="check-box is-on" id="passNumbersSwitch"><svg class="check-box-mark" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                  </div>
+
+                  <div class="field-row switch-row">
+                    <label>Símbolos (!@#$)</label>
+                    <button type="button" class="check-box is-on" id="passSymbolsSwitch"><svg class="check-box-mark" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                  </div>
+
+                  <div class="field-row switch-row">
+                    <label>Evitar caracteres ambíguos <span class="field-optional">(0 O 1 l I)</span></label>
+                    <button type="button" class="check-box" id="passAmbiguousSwitch"><svg class="check-box-mark" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                  </div>
+
+                  <div class="field-row switch-row">
+                    <label>Apenas letras</label>
+                    <button type="button" class="check-box" id="passOnlyLettersSwitch"><svg class="check-box-mark" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                  </div>
+
+                  <div class="field-row switch-row">
+                    <label>Apenas números</label>
+                    <button type="button" class="check-box" id="passOnlyNumbersSwitch"><svg class="check-box-mark" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                  </div>
+
+                  <div class="field-row">
+                    <label>Prévia</label>
+                    <div class="preview-box" id="passPreviewBox">—</div>
+                  </div>
+
+                </div>
+
+                <div class="dash-card-graph">
+                  <div class="graph-head">
+                    <span class="graph-title"><span class="live-dot"></span>Força estimada</span>
+                    <span class="graph-value" id="strengthLabel">—</span>
+                  </div>
+                  <div class="strength-bars" id="strengthBars">
+                    <span class="strength-bar"></span>
+                    <span class="strength-bar"></span>
+                    <span class="strength-bar"></span>
+                    <span class="strength-bar"></span>
+                    <span class="strength-bar"></span>
+                  </div>
+                  <div class="entropy-row">
+                    <span>Entropia estimada</span>
+                    <span id="entropyValue">— bits</span>
+                  </div>
+                </div>
+
+                <div class="dash-card-progress">
+                  <div class="progress-track">
+                    <div class="progress-fill" id="passProgressFill"></div>
+                  </div>
+                  <span class="progress-label" id="passProgressLabel">0%</span>
+                </div>
+
+              </div>
+            </article>
+
+            <article class="dash-card" data-card="batch">
+              <div class="dash-card-loading" id="batchLoadingOverlay">
+                <svg class="flowbite-spinner" viewBox="0 0 50 50">
+                  <circle class="spinner-track" cx="25" cy="25" r="20"></circle>
+                  <circle class="spinner-arc" cx="25" cy="25" r="20"></circle>
+                </svg>
+                <span class="dash-card-loading-label">Gerando contas...</span>
+                <span class="dash-card-loading-timer" id="batchLoadingTimer">0s</span>
+                <button type="button" class="dash-card-loading-unlock" id="batchUnlockBtn">Liberar controles</button>
+              </div>
+              <div class="dash-card-frame">
+
+                <div class="dash-card-head">
+                  <div class="dash-card-title">
+                    <i data-lucide="settings-2"></i>
+                    <span>Geração</span>
+                  </div>
+                  <span class="dash-card-status" id="batchCardStatus">pronto</span>
+                </div>
+
+                <div class="dash-card-config">
+
+                  <div class="field-row">
+                    <label>Contas para gerar</label>
+                    <div class="range-wrap">
+                      <input type="range" id="batchCount" min="1" max="50" value="1">
+                      <input type="number" id="batchCountNum" class="range-number" min="1" max="50" value="1">
+                    </div>
+                  </div>
+
+                  <div class="field-row switch-row">
+                    <label>Filtrar palavras ofensivas</label>
+                    <button type="button" class="check-box is-on" id="filterOffensiveSwitch"><svg class="check-box-mark" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                  </div>
+
+                  <div class="preset-manager">
+                    <div class="field-row">
+                      <label>Nome do preset</label>
+                      <div class="input-wrap">
+                        <input type="text" id="presetNameInput" class="text-input" placeholder="ex: Contas padrão, Senha extrema..." maxlength="32">
+                        <i data-lucide="tag"></i>
+                      </div>
+                    </div>
+
+                    <div class="field-row">
+                      <label>Presets salvos</label>
+                      <div class="select-wrap select-wrap-lg" id="presetSelect">
+                        <button type="button" class="select-btn" data-value="">
+                          <span>Nenhum preset selecionado</span>
+                          <i data-lucide="chevron-down"></i>
+                        </button>
+                        <div class="select-menu" id="presetSelectMenu">
+                          <div class="select-menu-empty" id="presetSelectEmpty">Nenhum preset salvo ainda</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="favorite-row">
+                      <button type="button" class="preset-btn preset-btn-ghost" id="saveFavoriteBtn"><i data-lucide="save"></i>Salvar</button>
+                      <button type="button" class="preset-btn preset-btn-ghost" id="loadFavoriteBtn"><i data-lucide="folder-open"></i>Carregar</button>
+                      <button type="button" class="preset-btn preset-btn-ghost" id="deletePresetBtn"><i data-lucide="trash-2"></i>Excluir</button>
+                    </div>
+
+                    <button type="button" class="preset-btn preset-btn-ghost preset-btn-full" id="resetDefaultsBtn"><i data-lucide="rotate-ccw"></i>Restaurar padrão</button>
+                  </div>
+
+                  <button type="button" class="generate-btn" id="generateBtn">
+                    <i data-lucide="wand-2"></i>
+                    <span id="generateBtnLabel">Gerar</span>
+                  </button>
+
+                  <button type="button" class="cancel-btn" id="cancelBtn" style="display:none;">
+                    <i data-lucide="x-circle"></i>
+                    Cancelar geração
+                  </button>
+
+                </div>
+
+                <div class="dash-card-progress" id="progressWrap">
+                  <div class="progress-track">
+                    <div class="progress-fill" id="progressFill"></div>
+                  </div>
+                  <span class="progress-label" id="progressLabel">0%</span>
+                </div>
+
+              </div>
+            </article>
+
+          </section>
+
+        </section>
+
+        <section class="view" id="view-resultados">
+
+          <div class="view-head">
+            <div>
+              <h1>Resultados</h1>
+              <p>Contas geradas nesta sessão, prontas para copiar ou exportar, além do histórico completo de gerações.</p>
+            </div>
+          </div>
+
+          <section class="results-section">
+            <div class="results-head">
+              <div class="results-head-title">
+                <i data-lucide="list"></i>
+                <span>Resultados</span>
+                <span class="results-count" id="resultsCount">0</span>
+              </div>
+
+              <div class="results-tools">
+                <div class="input-wrap results-search">
+                  <input type="text" id="resultsSearch" class="text-input" placeholder="Buscar resultado...">
+                  <i data-lucide="search"></i>
+                </div>
+
+                <div class="select-wrap" id="sortSelect">
+                  <button type="button" class="select-btn" data-value="new">
+                    <span>Mais recentes</span>
+                    <i data-lucide="chevron-down"></i>
+                  </button>
+                  <div class="select-menu">
+                    <div class="select-option is-active" data-value="new">Mais recentes</div>
+                    <div class="select-option" data-value="old">Mais antigos</div>
+                    <div class="select-option" data-value="strong">Mais fortes</div>
+                    <div class="select-option" data-value="weak">Mais fracas</div>
+                    <div class="select-option" data-value="az">Usuário A-Z</div>
+                  </div>
+                </div>
+
+                <button type="button" class="copy-all-btn" id="copyUsersBtn">
+                  <i data-lucide="user"></i>Copiar usuários
+                </button>
+                <button type="button" class="copy-all-btn" id="copyPassBtn">
+                  <i data-lucide="key-round"></i>Copiar senhas
+                </button>
+                <button type="button" class="copy-all-btn" id="copyAllBtn">
+                  <i data-lucide="copy"></i>Copiar tudo
+                </button>
+
+                <div class="select-wrap" id="exportSelect">
+                  <button type="button" class="select-btn" data-value="">
+                    <span>Exportar</span>
+                    <i data-lucide="chevron-down"></i>
+                  </button>
+                  <div class="select-menu">
+                    <div class="select-option" data-value="txt">Exportar .TXT</div>
+                    <div class="select-option" data-value="csv">Exportar .CSV</div>
+                    <div class="select-option" data-value="json">Exportar .JSON</div>
+                  </div>
+                </div>
+
+                <button type="button" class="copy-all-btn clear-all-btn" id="clearAllResultsBtn">
+                  <i data-lucide="trash-2"></i>Limpar tudo
+                </button>
+              </div>
+            </div>
+
+            <div class="results-list-head">
+              <label class="select-all-label">
+                <input type="checkbox" id="selectAllCheck">
+                <span>Selecionar tudo</span>
+              </label>
+            </div>
+
+            <div class="results-list" id="resultsList">
+              <div class="results-empty" id="resultsEmpty">
+                <i data-lucide="inbox"></i>
+                <span>Nenhuma conta gerada ainda</span>
+              </div>
+            </div>
+
+            <div class="bulk-bar" id="bulkBar">
+              <span class="bulk-bar-count"><strong id="bulkCount">0</strong> selecionada(s)</span>
+              <div class="bulk-bar-actions">
+                <button type="button" class="copy-all-btn" id="bulkCopyBtn"><i data-lucide="copy"></i>Copiar</button>
+                <button type="button" class="copy-all-btn" id="bulkFavBtn"><i data-lucide="star"></i>Favoritar</button>
+                <button type="button" class="copy-all-btn bulk-danger" id="bulkDeleteBtn"><i data-lucide="trash-2"></i>Excluir</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="history-section" id="historyPanel">
+            <div class="results-head">
+              <div class="results-head-title">
+                <i data-lucide="history"></i>
+                <span>Histórico de gerações</span>
+                <span class="results-count" id="historyCount">0</span>
+              </div>
+              <button type="button" class="copy-all-btn" id="clearHistoryBtn">
+                <i data-lucide="trash-2"></i>Limpar histórico
+              </button>
+            </div>
+
+            <div class="history-list" id="historyList">
+              <div class="results-empty">
+                <i data-lucide="clock"></i>
+                <span>Nenhuma geração no histórico ainda</span>
+              </div>
+            </div>
+          </section>
+
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <div class="musica">
+    <img class="musica__cover" src="" alt="">
+    <div class="musica__body">
+      <div class="musica__top">
+        <div class="musica__info">
+          <span class="musica__name">Cody Was</span>
+          <span class="musica__title">Carregando...</span>
+        </div>
+        <div class="musica__controls">
+          <button class="musica__bookmark" type="button" aria-pressed="false" aria-label="Favoritar">
+            <i data-lucide="bookmark"></i>
+          </button>
+          <button class="musica__prev" type="button" aria-label="Faixa anterior">
+            <i data-lucide="skip-back"></i>
+          </button>
+          <button class="musica__toggle" type="button" aria-label="Reproduzir">
+            <i data-lucide="play" class="musica__icon-play"></i>
+            <i data-lucide="pause" class="musica__icon-pause"></i>
+          </button>
+          <button class="musica__next" type="button" aria-label="Próxima faixa">
+            <i data-lucide="skip-forward"></i>
+          </button>
+        </div>
+      </div>
+      <div class="musica__progress-row">
+        <span class="musica__time musica__time--current">0:00</span>
+        <div class="musica__wave" role="slider" tabindex="0" aria-label="Progresso da música" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+        <span class="musica__time musica__time--duration">0:00</span>
+      </div>
+    </div>
+    <audio class="musica__audio" preload="auto"></audio>
+  </div>
+
+  <script src="../js/generator/generator.js"></script>
+  <script src="../js/musica.js"></script>
+</body>
+</html>

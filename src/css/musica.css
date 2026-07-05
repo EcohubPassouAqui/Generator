@@ -1,0 +1,252 @@
+.musica {
+  position: fixed;
+  left: 24px;
+  bottom: 24px;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(18,18,20,.97);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 14px;
+  padding: 12px 16px;
+  box-shadow: 0 20px 50px rgba(0,0,0,.55);
+  width: 360px;
+  max-width: calc(100vw - 48px);
+  cursor: grab;
+  user-select: none;
+}
+
+.musica.dragging {
+  cursor: grabbing;
+}
+
+.musica__cover {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: rgba(255,255,255,.06);
+  display: block;
+}
+
+.musica__cover.is-hidden {
+  display: none;
+}
+
+.musica__body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  flex: 1;
+}
+
+.musica__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.musica__info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.musica__name {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text, #f7f7f8);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.musica__title {
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-dim, #bdbdc5);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.musica__controls {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.musica__bookmark,
+.musica__toggle,
+.musica__prev,
+.musica__next {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  color: var(--text-dim, #bdbdc5);
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease;
+}
+
+.musica__bookmark:hover,
+.musica__toggle:hover,
+.musica__prev:hover,
+.musica__next:hover {
+  background: rgba(255,255,255,.08);
+  color: var(--text, #f7f7f8);
+}
+
+.musica__bookmark svg,
+.musica__toggle svg,
+.musica__prev svg,
+.musica__next svg {
+  width: 15px;
+  height: 15px;
+  pointer-events: none;
+}
+
+.musica__prev svg,
+.musica__next svg {
+  width: 14px;
+  height: 14px;
+}
+
+.musica__bookmark.is-active {
+  color: #ffd166;
+}
+
+.musica__bookmark.is-active svg {
+  fill: #ffd166;
+  stroke: #ffd166;
+}
+
+.musica__toggle {
+  background: rgba(255,255,255,.1);
+  color: var(--text, #f7f7f8);
+  position: relative;
+  width: 30px;
+  height: 30px;
+}
+
+.musica__toggle:hover {
+  background: rgba(255,255,255,.16);
+}
+
+.musica__icon-play,
+.musica__icon-pause {
+  position: absolute;
+  transition: opacity .15s ease;
+}
+
+.musica__icon-play {
+  opacity: 1;
+}
+
+.musica__icon-pause {
+  opacity: 0;
+}
+
+.musica.is-playing .musica__icon-play {
+  opacity: 0;
+}
+
+.musica.is-playing .musica__icon-pause {
+  opacity: 1;
+}
+
+.musica__progress-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.musica__time {
+  font-family: inherit;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--text-faint, #95959c);
+  min-width: 30px;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.musica__time--duration {
+  text-align: right;
+}
+
+.musica__wave {
+  position: relative;
+  flex: 1;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  cursor: pointer;
+  outline: none;
+}
+
+.musica__wave-bar {
+  flex: 1;
+  min-width: 2px;
+  border-radius: 2px;
+  background: rgba(255,255,255,.16);
+  transition: background .1s ease, transform .1s ease;
+  transform-origin: center;
+}
+
+.musica__wave-bar.is-played {
+  background: var(--text, #f7f7f8);
+}
+
+.musica__wave:hover .musica__wave-bar,
+.musica__wave:focus-visible .musica__wave-bar {
+  transform: scaleY(1.08);
+}
+
+.musica.is-playing .musica__wave-bar.is-played {
+  animation: musicaWavePulse 900ms ease-in-out infinite;
+  animation-delay: calc(var(--bar-i, 0) * 45ms);
+}
+
+@keyframes musicaWavePulse {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(.72); }
+}
+
+@media (max-width: 640px) {
+  .musica {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    width: auto;
+    max-width: none;
+    gap: 10px;
+    padding: 10px 12px;
+  }
+
+  .musica__cover {
+    width: 36px;
+    height: 36px;
+  }
+
+  .musica__name,
+  .musica__title {
+    max-width: 140px;
+  }
+}
