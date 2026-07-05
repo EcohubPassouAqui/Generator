@@ -1,3 +1,4 @@
+// by rip_sheldoohz
 const EN_ADJ = ['Shadow', 'Silent', 'Crimson', 'Frost', 'Lunar', 'Blaze', 'Storm', 'Iron', 'Ghost', 'Neon', 'Turbo', 'Cyber', 'Royal', 'Wild', 'Swift', 'Dark', 'Golden', 'Savage', 'Mystic', 'Rapid'];
 const EN_NOUN = ['Wolf', 'Ninja', 'Phoenix', 'Tiger', 'Hunter', 'Knight', 'Dragon', 'Falcon', 'Raven', 'Viper', 'Panther', 'Warrior', 'Hawk', 'Titan', 'Rider', 'Blade', 'Fox', 'Bear', 'Reaper', 'Star'];
 const PT_ADJ = ['Sombrio', 'Veloz', 'Ferrenho', 'Lunar', 'Selvagem', 'Fantasma', 'Feroz', 'Gelido', 'Dourado', 'Mistico', 'Bravo', 'Astuto', 'Rebelde', 'Furtivo', 'Eletrico', 'Nobre', 'Cruel', 'Livre', 'Turbo', 'Cinzento'];

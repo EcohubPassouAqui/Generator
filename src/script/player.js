@@ -1,3 +1,4 @@
+// by rip_sheldoohz
 const MUSIC_STORAGE_KEY = 'musicPlayerState';
 
 function readMusicState() {

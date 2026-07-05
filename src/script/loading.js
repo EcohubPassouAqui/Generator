@@ -1,3 +1,4 @@
+// by rip_sheldoohz
 const SOUND_ENABLED = false;
 const REDIRECT_URL = 'generator.html';
 
